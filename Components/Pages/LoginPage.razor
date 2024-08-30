@@ -1,8 +1,11 @@
 ﻿@page "/"
+@inject NavigationManager Navigation
+
+<!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
 
 <div class="container d-flex flex-column align-items-center mt-5 vh-100">
     <div>
-        <img class="w-100 mb-5" src="images/logo2.png" alt="Alternate Text" />
+        <img class="w-100 mb-5" src="" alt="Logo" />
     </div>
     <EditForm Model="@loginModel" OnValidSubmit="Login" class="d-flex flex-column justify-content-center align-items-center">
         <DataAnnotationsValidator />
@@ -19,6 +22,12 @@
     </EditForm> 
 </div>
 
+<style>
+    body {
+        overflow: hidden;
+    }
+</style>
+
 @code {
     private LoginModel loginModel = new LoginModel();
 
@@ -26,7 +35,8 @@
 
         if(loginModel.Username == "admin" && loginModel.Password == "admin") {
 
-            await DisplayAlert("Sucesso", "Login realiado com sucesso", "Ok");
+            Navigation.NavigateTo("/cadastro");
+            //await DisplayAlert("Sucesso", "Login realiado com sucesso", "Ok");
 
         }else {
             await DisplayAlert("Erro", "Usario ou senha inválido", "OK");

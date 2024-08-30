@@ -1,0 +1,32 @@
+﻿@page "/cadastro"
+
+<div class="vh-100">
+    <EditForm>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <input type="text" placeholder="Nome"/>
+            <input type="password" placeholder="Sobrenome"/>
+            <input type="password" placeholder="Data de Nascimento"/>
+            <input type="password" placeholder="Email"/>
+            <input type="password" placeholder="Telefone"/>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Genero</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="O">Outro</option> 
+            </select>
+            <!-- Endereço -->
+            <input type="text" placeholder="CEP" />
+            <input type="text" placeholder="Rua"/>
+            <input type="text" placeholder="Numero"/>
+            <input type="text" placeholder="Complemento"/>
+            <input type="text" placeholder="Bairro"/>
+            <input type="text" placeholder="Cidade"/>
+            <input type="text" placeholder="Estado"/>
+        </div>
+        <button type="submit" class="m-3 btn btn-primary w-60 align-items-center">Cadastrar</button>
+    </EditForm>
+</div>
+
