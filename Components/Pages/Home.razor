@@ -1,0 +1,46 @@
+﻿@page "/"
+
+<div class="container d-flex flex-column align-items-center mt-5 vh-100">
+    <div>
+        <img class="w-100 mb-5" src="images/logo2.png" alt="Alternate Text" />
+    </div>
+    <EditForm Model="@loginModel" OnValidSubmit="Login" class="d-flex flex-column justify-content-center">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <input type="text" id="username" @bind-value="loginModel.Username" name="user" placeholder="Usuario" class="m-2 p-1"/>
+            <input type="password" id="password" @bind-value="loginModel.Password" name="password" placeholder="Senha" class="m-2 p-1" />
+        </div>
+        <div>
+            <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
+        </div>
+        <button type="submit" class="m-3 btn btn-primary">Login</button>
+    </EditForm> 
+</div>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    private async void Login() {
+
+        if(loginModel.Username == "admin" && loginModel.Password == "admin") {
+
+            await DisplayAlert("Sucesso", "Login realiado com sucesso", "Ok");
+
+        }else {
+            await DisplayAlert("Erro", "Usario ou senha inválido", "OK");
+        }
+    }
+
+    public class LoginModel {
+        
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
+    private async Task DisplayAlert(string title, string message, string cancel) {
+
+        await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+    }
+};
