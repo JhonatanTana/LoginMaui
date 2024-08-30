@@ -4,18 +4,18 @@
     <div>
         <img class="w-100 mb-5" src="images/logo2.png" alt="Alternate Text" />
     </div>
-    <EditForm Model="@loginModel" OnValidSubmit="Login" class="d-flex flex-column justify-content-center">
+    <EditForm Model="@loginModel" OnValidSubmit="Login" class="d-flex flex-column justify-content-center align-items-center">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="d-flex flex-column align-items-center justify-content-center">
-            <input type="text" id="username" @bind-value="loginModel.Username" name="user" placeholder="Usuario" class="m-2 p-1"/>
-            <input type="password" id="password" @bind-value="loginModel.Password" name="password" placeholder="Senha" class="m-2 p-1" />
+        <div class="d-flex flex-column align-items-center justify-content-center w-100">
+            <input type="text" id="username" @bind-value="loginModel.Username" name="user" placeholder="Usuario" class="m-2 p-1 w-80"/>
+            <input type="password" id="password" @bind-value="loginModel.Password" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
         </div>
-        <div>
+        <div class="w-100">
             <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
         </div>
-        <button type="submit" class="m-3 btn btn-primary">Login</button>
+        <button type="submit" class="m-3 btn btn-primary w-60 align-items-center">Login</button>
     </EditForm> 
 </div>
 

@@ -61,12 +61,24 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .status-bar-safe-area {
     display: none;
+}
+
+.w-100 {
+    width: 100vw;
+}
+
+.w-80 {
+    width: 80vw
+}
+
+.w-60 {
+    width: 60vw
 }
 
 @supports (-webkit-touch-callout: none) {

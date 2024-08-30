@@ -11,8 +11,7 @@ namespace LoginMaui {
             base.OnCreate(savedInstanceState);
 
             // Altere a cor da barra de status
-            Window.SetStatusBarColor(Android.Graphics.Color.White);
-            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
+            Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
         }
     }
 }
