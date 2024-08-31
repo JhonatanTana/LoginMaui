@@ -1,6 +1,8 @@
-﻿@page "/"
+﻿@page "/2"
 @using LoginMaui.Models
+@using LoginMaui.Services
 @inject NavigationManager Navigation
+@inject IUsuarioService UsuarioService
 
 <!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
 
@@ -8,35 +10,42 @@
     <div>
         <img class="w-100 mb-5" src="" alt="Logo" />
     </div>
-    <EditForm Model="@loginModel" OnValidSubmit="Login" class="d-flex flex-column justify-content-center align-items-center">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
 
-        <div class="d-flex flex-column align-items-center justify-content-center w-100">
-            <input type="text" id="username" @bind-value="loginModel.Usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80"/>
-            <input type="password" id="password" @bind-value="loginModel.Senha" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
-        </div>
-        <div class="w-100">
-            <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
-        </div>
-        <button type="submit" class="m-3 btn btn-primary w-60 align-items-center">Login</button>
-    </EditForm>
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+        <input type="text" id="username" @bind="usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80" />
+        <input type="password" id="password" @bind="senha" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
+    </div>
+    <div class="w-100">
+        <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
+    </div>
+    <button type="submit" class="m-3 btn btn-primary w-60 align-items-center" @onclick="Login">Login</button>
     <a href="registrar" class="btn btn-secondary">Registrar-se</a>
 </div>
 
 @code {
-    private UsuarioModel loginModel = new UsuarioModel();
+    private string usuario { get; set; }
+    private string senha { get; set; }
+    private List<UsuarioModel> usuarios;
 
     private async Task Login() {
 
-        if(loginModel.Usuario == "admin" && loginModel.Senha == "admin") {
+        usuarios = await UsuarioService.GetAllUsuarios();
+
+        if (usuarios.Any(u => u.Usuario == usuario && u.Senha == senha)) {
+
+            Navigation.NavigateTo("/PaginaInicial"); 
+        }else {
+            await DisplayAlert("Erro", "Erro ao logar", "Ok");
+        }
+
+        /*if(loginModel.Usuario == "admin" && loginModel.Senha == "admin") {
 
             Navigation.NavigateTo("/PaginaInicial");
             //await DisplayAlert("Sucesso", "Login realiado com sucesso", "Ok");
 
         }else {
             await DisplayAlert("Erro", "Usario ou senha inválido", "OK");
-        }
+        }*/
     }
 
     private async Task DisplayAlert(string title, string message, string cancel) {

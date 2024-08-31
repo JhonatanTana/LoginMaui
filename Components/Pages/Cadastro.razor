@@ -1,4 +1,4 @@
-﻿@page "/cadastro"
+﻿@page "/"
 @using System.Net
 @using System.Net.Mail
 @inject HttpClient Http
@@ -7,46 +7,53 @@
 @using LoginMaui.Models
 
 <div class="vh-100">
-    <EditForm Model="@cadastroModel" OnValidSubmit="Cadastrar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="p-4 gap-4">
-            <input type="text" placeholder="Nome" @bind="cadastroModel.Nome" />
-            <input type="text" placeholder="Sobrenome" @bind="cadastroModel.Sobrenome" />
-            <input type="date" placeholder="Data de Nascimento" @bind="cadastroModel.DataNascimento" />
-            <input type="email" placeholder="Email" @bind="cadastroModel.CadastroEmail" />
-            <input type="tel" placeholder="Telefone" @bind="cadastroModel.Telefone" />
-            <select class="form-select" aria-label="Default select example" @bind="cadastroModel.Genero">
-                <option value="">Genero</option>
-                <option value="M">Masculino</option>
-                <option value="F">Feminino</option>
-                <option value="O">Outro</option>
-            </select>
-            <input type="number" placeholder="CEP" @bind="cadastroModel.Cep" @bind:event="oninput" @onchange="BuscarCep" />
-            <input type="text" placeholder="Rua" @bind="cadastroModel.Rua" />
-            <input type="number" placeholder="Numero" @bind="cadastroModel.Numero" />
-            <input type="text" placeholder="Complemento" @bind="cadastroModel.Complemento" />
-            <input type="text" placeholder="Bairro" @bind="cadastroModel.Bairro" />
-            <input type="text" placeholder="Cidade" @bind="cadastroModel.Cidade" />
-            <input type="text" placeholder="Estado" @bind="cadastroModel.Estado" />
-        </div>
-        <button type="submit" class="m-3 btn btn-primary w-60 align-items-center">Cadastrar</button>
-    </EditForm>
+    <div class="p-4 gap-4">
+        <input type="text" placeholder="Nome" @bind="nome" />
+        <input type="text" placeholder="Sobrenome" @bind="sobrenome" />
+        <input type="date" placeholder="Data de Nascimento" @bind="dataNascimento" />
+        <input type="email" placeholder="Email" @bind="cadastroEmail" />
+        <input type="tel" placeholder="Telefone" @bind="telefone" />
+        <select class="form-select" aria-label="Default select example" @bind="genero">
+            <option value="">Genero</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="O">Outro</option>
+        </select>
+        <input type="number" placeholder="CEP" @bind="cep" @bind:event="oninput" @onchange="BuscarCep" />
+        <input type="text" placeholder="Rua" @bind="rua" />
+        <input type="number" placeholder="Numero" @bind="numero" />
+        <input type="text" placeholder="Complemento" @bind="complemento" />
+        <input type="text" placeholder="Bairro" @bind="bairro" />
+        <input type="text" placeholder="Cidade" @bind="cidade" />
+        <input type="text" placeholder="Estado" @bind="estado" />
+    </div>
+    <button type="submit" class="m-3 btn btn-primary w-60 align-items-center" @onclick="Cadastrar">Cadastrar</button>
 </div>
 
 @code {
-    private CadastroModel cadastroModel = new CadastroModel();
+    public string nome;
+    public string sobrenome;
+    public DateTime dataNascimento = DateTime.Today;
+    public string cadastroEmail;
+    public string telefone;
+    public string genero;
+    public string cep;
+    public string rua;
+    public string numero;
+    public string complemento;
+    public string bairro;
+    public string cidade;
+    public string estado;
 
     private async Task Cadastrar() {
 
         try {
             await EnviarEmailAsync(
-                cadastroModel.CadastroEmail,
+                cadastroEmail,
                 "Confirmação de Cadastro",
                 "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
             );
-            await DisplayAlertAndNavigate("Sucesso", $"Email de confirmação enviado com sucesso para: {cadastroModel.CadastroEmail}", "OK", "/");
+            await DisplayAlertAndNavigate("Sucesso", $"Email de confirmação enviado com sucesso para: {cadastroEmail}", "OK", "/");
         }
         catch (Exception ex) {
             await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
@@ -60,10 +67,10 @@
             if (response.IsSuccessStatusCode) {
                 var endereco = await response.Content.ReadFromJsonAsync<ViaCep>();
                 if (endereco != null && !endereco.Erro) {
-                    cadastroModel.Rua = endereco.Logradouro;
-                    cadastroModel.Bairro = endereco.Bairro;
-                    cadastroModel.Cidade = endereco.Localidade;
-                    cadastroModel.Estado = endereco.Uf;
+                    rua = endereco.Logradouro;
+                    bairro = endereco.Bairro;
+                    cidade = endereco.Localidade;
+                    estado = endereco.Uf;
                 }
                 else {
                     await DisplayAlert("Erro", "CEP não encontrado.", "OK");
