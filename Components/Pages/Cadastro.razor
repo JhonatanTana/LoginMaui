@@ -69,10 +69,6 @@
         await Task.CompletedTask; // Simulação de operação assíncrona
     }
 
-
-
-
-
     private async Task BuscarCep(ChangeEventArgs e) {
         string cep = e.Value?.ToString()?.Replace("-", "").Trim() ?? string.Empty;
         if (Connectivity.NetworkAccess == NetworkAccess.Internet) {
@@ -102,7 +98,7 @@
 
     private async Task EnviarEmailAsync(string email, string assunto, string mensagem)
     {
-        var apiKey = "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"; // Substitua com sua API Key do SendGrid
+        var apiKey = "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"; 
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;
@@ -113,11 +109,13 @@
 
         var response = await client.SendEmailAsync(msg);
 
+
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             var errorMessage = await response.Body.ReadAsStringAsync();
             await DisplayAlert("Erro", $"Falha ao enviar e-mail: {errorMessage}", "OK");
         }
+        
         else
         {
             await DisplayAlert("Sucesso", $"Email de confirmação enviado com sucesso para:{email} ", "OK");
