@@ -58,10 +58,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\Images\Background.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.82" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+        <PackageReference Include="SendGrid" Version="9.29.3" />
         <PackageReference Include="SQLite" Version="3.13.0" />
         <PackageReference Include="SQLitePCLRaw.core" Version="2.1.9" />
     </ItemGroup>

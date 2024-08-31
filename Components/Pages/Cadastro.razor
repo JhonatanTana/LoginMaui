@@ -1,4 +1,6 @@
 ﻿@page "/cadastro"
+@using System.Net
+@using System.Net.Mail
 @inject HttpClient Http
 
 <div class="vh-100">
@@ -6,11 +8,11 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div>
+        <div class="p-4 gap-4">
             <input type="text" placeholder="Nome" @bind="cadastroModel.Nome" />
             <input type="text" placeholder="Sobrenome" @bind="cadastroModel.Sobrenome" />
             <input type="date" placeholder="Data de Nascimento" @bind="cadastroModel.DataNascimento" />
-            <input type="email" placeholder="Email" @bind="cadastroModel.Email" />
+            <input type="email" placeholder="Email" @bind="cadastroModel.CadastroEmail" />
             <input type="tel" placeholder="Telefone" @bind="cadastroModel.Telefone" />
             <select class="form-select" aria-label="Default select example" @bind="cadastroModel.Genero">
                 <option value="">Genero</option>
@@ -37,7 +39,7 @@
         public string Nome { get; set; } = string.Empty;
         public string Sobrenome { get; set; } = string.Empty;
         public DateTime DataNascimento { get; set; }
-        public string Email { get; set; } = string.Empty;
+        public string CadastroEmail { get; set; } = string.Empty;
         public string Telefone { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;
         public string Cep { get; set; } = string.Empty;
@@ -57,9 +59,19 @@
         public bool Erro { get; set; }
     }
 
+
     private async Task Cadastrar() {
+        await EnviarEmailAsync(
+            cadastroModel.CadastroEmail,
+            "Confirmação de Cadastro",
+            "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
+        );
         await Task.CompletedTask; // Simulação de operação assíncrona
     }
+
+
+
+
 
     private async Task BuscarCep(ChangeEventArgs e) {
         string cep = e.Value?.ToString()?.Replace("-", "").Trim() ?? string.Empty;
@@ -87,6 +99,31 @@
             await DisplayAlert("Erro", "Sem conexão com a internet.", "OK");
         }
     }
+
+    private async Task EnviarEmailAsync(string email, string assunto, string mensagem)
+    {
+        var apiKey = "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"; // Substitua com sua API Key do SendGrid
+        var client = new SendGridClient(apiKey);
+        var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
+        var subject = assunto;
+        var to = new EmailAddress(email);
+        var plainTextContent = mensagem;
+        var htmlContent = $"<p>{mensagem}</p>";
+        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+        var response = await client.SendEmailAsync(msg);
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            var errorMessage = await response.Body.ReadAsStringAsync();
+            await DisplayAlert("Erro", $"Falha ao enviar e-mail: {errorMessage}", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Sucesso", $"Email de confirmação enviado com sucesso para:{email} ", "OK");
+        }
+    }
+
 
     private async Task DisplayAlert(string title, string message, string cancel) {
         if (Application.Current?.MainPage != null) {

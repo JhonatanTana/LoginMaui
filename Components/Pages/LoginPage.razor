@@ -3,7 +3,7 @@
 
 <!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
 
-<div class="container d-flex flex-column align-items-center mt-5 vh-100">
+<div class="page-background-class container d-flex flex-column align-items-center mt-5 vh-100">
     <div>
         <img class="w-100 mb-5" src="" alt="Logo" />
     </div>
@@ -19,9 +19,11 @@
             <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
         </div>
         <button type="submit" class="m-3 btn btn-primary w-60 align-items-center">Login</button>
-    </EditForm> 
+    </EditForm>
+    <button class="btn btn-primary w-60 align-items-center" @onclick="OpenPage">Cadastro</button>
 </div>
 
+    
 <style>
     body {
         overflow: hidden;
@@ -44,10 +46,16 @@
     }
 
     public class LoginModel {
-        
+
         public string Username { get; set; }
         public string Password { get; set; }
     }
+
+    private async void OpenPage()
+    {
+        Navigation.NavigateTo("/cadastro");
+    }
+
 
     private async Task DisplayAlert(string title, string message, string cancel) {
 
