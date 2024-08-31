@@ -1,0 +1,30 @@
+﻿@page "/registrar"
+@using System.ComponentModel.DataAnnotations
+@using LoginMaui.Components.Models
+@using LoginMaui.Data
+@inject NavigationManager Navigation
+
+<div class="vh-100">
+    <EditForm Model="registroModel" OnValidSubmit="Registrar">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <input type="text" placeholder="Usuario" @bind="registroModel.Usuario" />
+        <input type="password" placeholder="Senha" @bind="registroModel.Senha" />
+        <input type="password" placeholder="Confirmar Senha" @bind="registroModel.ConfirmacaoSenha" />
+        <button class="btn btn-primary">Registrar</button>
+    </EditForm>
+</div>
+
+@code {
+    private RegistroModel registroModel = new RegistroModel();
+
+    private async Task Registrar() {
+        
+        await DisplayAlert("Sucesso", $"Usuario {registroModel.Usuario} com a senha {registroModel.Senha} registrado com sucesso", "Ok");
+        Navigation.NavigateTo("/cadastro");
+    }
+
+    private async Task DisplayAlert(string title, string message, string cancel) {
+        await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+    }
+}

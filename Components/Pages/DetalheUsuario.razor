@@ -1,0 +1,26 @@
+﻿@page "/usuario/{id:int}"
+
+<div class="vh-100 d-flex flex-column">
+    <span> Nome: </span>
+    <span> Sobrenome: </span>
+    <span> Data de Nascimento: </span>
+    <span> Email: </span>
+    <span> Telefone: </span>
+    <span> Genero: </span>
+    <span> Rua, Numero </span>
+    <span> Bairro, Complemento </span>
+    <span> Cidade, Estado </span>
+</div>
+<div>
+    <button class="btn btn-primary">Editar</button>
+    <button class="btn btn-danger">Excluir</button>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override void OnParametersSet() {
+        // Lógica para carregar os detalhes do usuário com base no Id
+    }
+}

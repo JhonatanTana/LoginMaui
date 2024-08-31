@@ -1,0 +1,19 @@
+﻿@page "/ListaUsuarios"
+@inject NavigationManager Navigation
+
+<div class="vh-100">
+    
+    <div>
+        <div>
+            <span>Nome Sobrenome</span>
+            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private void NavegarParaDetalhes(int id) {
+        Navigation.NavigateTo($"/usuario/{id}");
+    }
+}
