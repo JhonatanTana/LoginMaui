@@ -2,6 +2,8 @@
 @using System.Net
 @using System.Net.Mail
 @inject HttpClient Http
+@inject NavigationManager Navigation
+@using System.ComponentModel.DataAnnotations;
 
 <div class="vh-100">
     <EditForm Model="@cadastroModel" OnValidSubmit="Cadastrar">
@@ -36,9 +38,13 @@
     private CadastroModel cadastroModel = new CadastroModel();
 
     public class CadastroModel {
+        [Required(ErrorMessage = "O campo Nome é obrigatorio")]
         public string Nome { get; set; } = string.Empty;
+        [Required(ErrorMessage = "O campo Sobrenome é obrigatorio")]
         public string Sobrenome { get; set; } = string.Empty;
         public DateTime DataNascimento { get; set; }
+        [Required(ErrorMessage = "O campo Email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "O Email informado não é válido.")]
         public string CadastroEmail { get; set; } = string.Empty;
         public string Telefone { get; set; } = string.Empty;
         public string Genero { get; set; } = string.Empty;
@@ -59,14 +65,21 @@
         public bool Erro { get; set; }
     }
 
-
     private async Task Cadastrar() {
-        await EnviarEmailAsync(
-            cadastroModel.CadastroEmail,
-            "Confirmação de Cadastro",
-            "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
-        );
-        await Task.CompletedTask; // Simulação de operação assíncrona
+       
+        try
+        {
+            await EnviarEmailAsync(
+                cadastroModel.CadastroEmail,
+                "Confirmação de Cadastro",
+                "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
+            );
+            await DisplayAlertAndNavigate("Sucesso", $"Email de confirmação enviado com sucesso para: {cadastroModel.CadastroEmail}", "OK", "/LoginPage");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
+        }
     }
 
     private async Task BuscarCep(ChangeEventArgs e) {
@@ -113,14 +126,21 @@
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             var errorMessage = await response.Body.ReadAsStringAsync();
-            await DisplayAlert("Erro", $"Falha ao enviar e-mail: {errorMessage}", "OK");
+            await DisplayAlert("Erro", $"Falha ao enviar e-mail 404: {errorMessage}", "OK");
         }
-        
-        else
+
+
+    }
+
+    private async Task DisplayAlertAndNavigate(string title, string message, string cancel, string navigateTo)
+    {
+        if (Application.Current?.MainPage != null)
         {
-            await DisplayAlert("Sucesso", $"Email de confirmação enviado com sucesso para:{email} ", "OK");
+            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+            Navigation.NavigateTo(navigateTo);
         }
     }
+
 
 
     private async Task DisplayAlert(string title, string message, string cancel) {
