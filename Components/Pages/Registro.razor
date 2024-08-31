@@ -1,27 +1,45 @@
 ﻿@page "/registrar"
 @using System.ComponentModel.DataAnnotations
-@using LoginMaui.Components.Models
-@using LoginMaui.Data
+@using LoginMaui.Models
+@using LoginMaui.Services
 @inject NavigationManager Navigation
+@inject IUsuarioService UsuarioService
 
 <div class="vh-100">
-    <EditForm Model="registroModel" OnValidSubmit="Registrar">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <input type="text" placeholder="Usuario" @bind="registroModel.Usuario" />
-        <input type="password" placeholder="Senha" @bind="registroModel.Senha" />
-        <input type="password" placeholder="Confirmar Senha" @bind="registroModel.ConfirmacaoSenha" />
-        <button class="btn btn-primary">Registrar</button>
-    </EditForm>
+
+    <input class="m-2" type="text" placeholder="Usuario" @bind="usuario" />
+    <input class="m-2" type="password" placeholder="Senha" @bind="senha" />
+    <input class="m-2" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
+    <button class="btn btn-primary m-2" @onclick="Registrar">Registrar</button>
 </div>
 
 @code {
-    private RegistroModel registroModel = new RegistroModel();
+    private string usuario;
+    private string senha;
+    private string confirmacaoSenha;
 
-    private async Task Registrar() {
-        
-        await DisplayAlert("Sucesso", $"Usuario {registroModel.Usuario} com a senha {registroModel.Senha} registrado com sucesso", "Ok");
-        Navigation.NavigateTo("/cadastro");
+    private async void Registrar() {
+
+        if (senha == confirmacaoSenha) {
+
+            var response = await UsuarioService.AddUsuario(new UsuarioModel {
+
+                Usuario = usuario,
+                Senha = senha
+            });
+
+            if (response > 0) { // verifica se o usuário foi cadastrado com sucesso
+
+                //await DisplayAlert("Sucesso", $"Usuário {usuario} cadastrado com sucesso", "Ok");
+                Navigation.NavigateTo("/");
+            }else {
+                await DisplayAlert("Erro", "Erro ao cadastrar", "Ok");
+            }
+
+        }else {
+
+            await DisplayAlert("Erro", $"As senhas não conferem", "Ok");
+        }
     }
 
     private async Task DisplayAlert(string title, string message, string cancel) {

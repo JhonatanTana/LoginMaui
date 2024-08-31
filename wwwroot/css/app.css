@@ -86,7 +86,7 @@ h1:focus {
     width: 60vw
 }
 
-span {
+span, h1 {
     color: white;
 }
 

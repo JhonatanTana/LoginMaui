@@ -62,8 +62,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.8" />
+        <PackageReference Include="EntityFramework" Version="6.5.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -74,7 +73,11 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="SendGrid" Version="9.29.3" />
         <PackageReference Include="SQLite" Version="3.13.0" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.9" />
         <PackageReference Include="SQLitePCLRaw.core" Version="2.1.9" />
+        <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.9" />
+        <PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.9" />
     </ItemGroup>
 
 </Project>

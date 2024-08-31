@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using LoginMaui.Components.Models
+@using LoginMaui.Models
 @inject NavigationManager Navigation
 
 <!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
@@ -13,8 +13,8 @@
         <ValidationSummary />
 
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
-            <input type="text" id="username" @bind-value="loginModel.Username" name="user" placeholder="Usuario" class="m-2 p-1 w-80"/>
-            <input type="password" id="password" @bind-value="loginModel.Password" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
+            <input type="text" id="username" @bind-value="loginModel.Usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80"/>
+            <input type="password" id="password" @bind-value="loginModel.Senha" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
         </div>
         <div class="w-100">
             <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
@@ -25,11 +25,11 @@
 </div>
 
 @code {
-    private LoginModel loginModel = new LoginModel();
+    private UsuarioModel loginModel = new UsuarioModel();
 
     private async Task Login() {
 
-        if(loginModel.Username == "admin" && loginModel.Password == "admin") {
+        if(loginModel.Usuario == "admin" && loginModel.Senha == "admin") {
 
             Navigation.NavigateTo("/PaginaInicial");
             //await DisplayAlert("Sucesso", "Login realiado com sucesso", "Ok");

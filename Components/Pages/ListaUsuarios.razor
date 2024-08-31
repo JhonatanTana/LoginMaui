@@ -2,9 +2,21 @@
 @inject NavigationManager Navigation
 
 <div class="vh-100">
+
+    <div class="d-flex justify-content-center">
+        <h1>Lista de Usuários</h1>
+    </div>
     
     <div>
-        <div>
+        <div class="d-flex justify-content-between align-items-center m-2">
+            <span>Nome Sobrenome</span>
+            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center m-2">
+            <span>Nome Sobrenome</span>
+            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center m-2">
             <span>Nome Sobrenome</span>
             <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
         </div>

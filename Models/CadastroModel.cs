@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginMaui.Components.Models {
+namespace LoginMaui.Models {
     public class CadastroModel {
+
+
         [Required(ErrorMessage = "O campo Nome é obrigatorio")]
         public string Nome { get; set; } = string.Empty;
         [Required(ErrorMessage = "O campo Sobrenome é obrigatorio")]

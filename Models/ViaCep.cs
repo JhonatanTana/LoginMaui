@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginMaui.Components.Models;
-public class ViaCep {
+namespace LoginMaui.Models;
+public class ViaCep
+{
     public string Logradouro { get; set; } = string.Empty;
     public string Bairro { get; set; } = string.Empty;
     public string Localidade { get; set; } = string.Empty;

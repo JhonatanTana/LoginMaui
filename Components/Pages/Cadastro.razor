@@ -4,7 +4,7 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations;
-@using LoginMaui.Components.Models
+@using LoginMaui.Models
 
 <div class="vh-100">
     <EditForm Model="@cadastroModel" OnValidSubmit="Cadastrar">
@@ -39,9 +39,8 @@
     private CadastroModel cadastroModel = new CadastroModel();
 
     private async Task Cadastrar() {
-       
-        try
-        {
+
+        try {
             await EnviarEmailAsync(
                 cadastroModel.CadastroEmail,
                 "Confirmação de Cadastro",
@@ -49,42 +48,36 @@
             );
             await DisplayAlertAndNavigate("Sucesso", $"Email de confirmação enviado com sucesso para: {cadastroModel.CadastroEmail}", "OK", "/");
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
         }
     }
 
     private async Task BuscarCep(ChangeEventArgs e) {
         string cep = e.Value?.ToString()?.Replace("-", "").Trim() ?? string.Empty;
-        if (Connectivity.NetworkAccess == NetworkAccess.Internet) {
-            try {
-                var response = await Http.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
-                if (response.IsSuccessStatusCode) {
-                    var endereco = await response.Content.ReadFromJsonAsync<ViaCep>();
-                    if (endereco != null && !endereco.Erro) {
-                        cadastroModel.Rua = endereco.Logradouro;
-                        cadastroModel.Bairro = endereco.Bairro;
-                        cadastroModel.Cidade = endereco.Localidade;
-                        cadastroModel.Estado = endereco.Uf;
-                    }
-                    else {
-                        await DisplayAlert("Erro", "CEP não encontrado.", "OK");
-                    }
+        try {
+            var response = await Http.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
+            if (response.IsSuccessStatusCode) {
+                var endereco = await response.Content.ReadFromJsonAsync<ViaCep>();
+                if (endereco != null && !endereco.Erro) {
+                    cadastroModel.Rua = endereco.Logradouro;
+                    cadastroModel.Bairro = endereco.Bairro;
+                    cadastroModel.Cidade = endereco.Localidade;
+                    cadastroModel.Estado = endereco.Uf;
+                }
+                else {
+                    await DisplayAlert("Erro", "CEP não encontrado.", "OK");
                 }
             }
-            catch (Exception ex) {
-                await DisplayAlert("Erro", $"Erro ao buscar o CEP: {ex.Message}", "OK");
-            }
         }
-        else {
-            await DisplayAlert("Erro", "Sem conexão com a internet.", "OK");
+        catch (Exception ex) {
+            await DisplayAlert("Erro", $"Erro ao buscar o CEP: {ex.Message}", "OK");
         }
+
     }
 
-    private async Task EnviarEmailAsync(string email, string assunto, string mensagem)
-    {
-        var apiKey = "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"; 
+    private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
+        var apiKey = "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";
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;
@@ -95,9 +88,7 @@
 
         var response = await client.SendEmailAsync(msg);
 
-
-        if (response.StatusCode == HttpStatusCode.NotFound)
-        {
+        if (response.StatusCode == HttpStatusCode.NotFound) {
             var errorMessage = await response.Body.ReadAsStringAsync();
             await DisplayAlert("Erro", $"Falha ao enviar e-mail 404: {errorMessage}", "OK");
         }
@@ -105,10 +96,8 @@
 
     }
 
-    private async Task DisplayAlertAndNavigate(string title, string message, string cancel, string navigateTo)
-    {
-        if (Application.Current?.MainPage != null)
-        {
+    private async Task DisplayAlertAndNavigate(string title, string message, string cancel, string navigateTo) {
+        if (Application.Current?.MainPage != null) {
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
             Navigation.NavigateTo(navigateTo);
         }
