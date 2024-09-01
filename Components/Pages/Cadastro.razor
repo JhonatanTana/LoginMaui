@@ -1,10 +1,13 @@
-﻿@page "/"
+﻿@page "/cadastro"
 @using System.Net
 @using System.Net.Mail
-@inject HttpClient Http
-@inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations;
 @using LoginMaui.Models
+@using LoginMaui.Services
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject ICadastroService CadastroService
+
 
 <div class="vh-100">
     <div class="p-4 gap-4">
@@ -45,18 +48,33 @@
     public string cidade;
     public string estado;
 
-    private async Task Cadastrar() {
+    private async void Cadastrar() {
 
-        try {
-            await EnviarEmailAsync(
-                cadastroEmail,
-                "Confirmação de Cadastro",
-                "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
-            );
-            await DisplayAlertAndNavigate("Sucesso", $"Email de confirmação enviado com sucesso para: {cadastroEmail}", "OK", "/");
+        var response = await CadastroService.AddCadastro(new CadastroModel {
+
+            Nome = nome,
+            Sobrenome = sobrenome,
+            DataNascimento = dataNascimento,
+            CadastroEmail = cadastroEmail,
+            Telefone = telefone,
+            Genero = genero,
+            Cep = cep,
+            Rua = rua,
+            Numero = numero,
+            Complemento = complemento,
+            Bairro = bairro,
+            Cidade = cidade,
+            Estado = estado
+        });
+
+        if (response > 0) {
+
+            await DisplayAlert("Sucesso", "Cadastro concluido", "Ok");
+            Navigation.NavigateTo("/PaginaInicial");
         }
-        catch (Exception ex) {
-            await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
+        else {
+
+            await DisplayAlert("Erro", "Erro ao cadastrar", "OK");
         }
     }
 

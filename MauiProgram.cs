@@ -1,7 +1,7 @@
 ﻿using LoginMaui.Services;
 using Microsoft.Extensions.Logging;
 
-namespace LoginMaui; 
+namespace LoginMaui;
 public static class MauiProgram {
     public static MauiApp CreateMauiApp() {
         var builder = MauiApp.CreateBuilder();
@@ -16,11 +16,12 @@ public static class MauiProgram {
         builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-		builder.Logging.AddDebug();
+        builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Logging.AddDebug();
 #endif
-
+        //builder.Services.AddSingleton<DatabaseHelper>();
         builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
+        builder.Services.AddSingleton<ICadastroService, CadastroService>();
 
         return builder.Build();
     }

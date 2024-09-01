@@ -58,6 +58,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Remove="Services\DatabaseInitializer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Remove="Resources\Images\Background.png" />
     </ItemGroup>
 
