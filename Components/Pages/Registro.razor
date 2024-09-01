@@ -17,28 +17,42 @@
     private string usuario;
     private string senha;
     private string confirmacaoSenha;
+    private List<UsuarioModel> usuarios;
 
-    private async void Registrar() {
+    private async Task Registrar() {
 
-        if (senha == confirmacaoSenha) {
+        usuarios = await UsuarioService.GetAllUsuarios();
 
-            var response = await UsuarioService.AddUsuario(new UsuarioModel {
+        if (usuarios.Any(u => u.Usuario == usuario)) { // Verifica se o usuario ja existe
 
-                Usuario = usuario,
-                Senha = senha
-            });
+            await DisplayAlert("Erro", "Usuario ja existente", "Ok");
+        }
+        else {
 
-            if (response > 0) { // verifica se o usuário foi cadastrado com sucesso
+            if (senha == confirmacaoSenha) { //Verifica se a senha e correspondente
 
-                //await DisplayAlert("Sucesso", $"Usuário {usuario} cadastrado com sucesso", "Ok");
-                Navigation.NavigateTo("/cadastro");
-            }else {
-                await DisplayAlert("Erro", "Erro ao cadastrar", "Ok");
+                var response = await UsuarioService.AddUsuario(new UsuarioModel {
+
+                    Usuario = usuario,
+                    Senha = senha
+                });
+
+                if (response > 0) { // verifica se o usuário foi cadastrado com sucesso
+
+                    //await DisplayAlert("Sucesso", $"Usuário {usuario} cadastrado com sucesso", "Ok");
+                    Navigation.NavigateTo("/cadastro");
+                }
+                else {
+
+                    await DisplayAlert("Erro", "Erro ao cadastrar", "Ok");
+                }
+            }
+            else {
+
+                await DisplayAlert("Erro", $"As senhas não conferem", "Ok");
             }
 
-        }else {
 
-            await DisplayAlert("Erro", $"As senhas não conferem", "Ok");
         }
     }
 

@@ -1,31 +1,40 @@
 ﻿@page "/ListaUsuarios"
+@using LoginMaui.Models
+@using LoginMaui.Services
 @inject NavigationManager Navigation
+@inject IUsuarioService UsuarioService
 
 <div class="vh-100">
 
-    <div class="d-flex justify-content-center">
-        <h1>Lista de Usuários</h1>
+    <div class="d-flex justify-content-center mt-1 mb-3">
+        <h1>Lista de Usuarios</h1>
     </div>
-    
-    <div>
-        <div class="d-flex justify-content-between align-items-center m-2">
-            <span>Nome Sobrenome</span>
-            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
-        </div>
-        <div class="d-flex justify-content-between align-items-center m-2">
-            <span>Nome Sobrenome</span>
-            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
-        </div>
-        <div class="d-flex justify-content-between align-items-center m-2">
-            <span>Nome Sobrenome</span>
-            <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(1)">Detalhes</button>
-        </div>
-    </div>
+
+    @if (usuarios == null) {
+        <p><em>Carregando...</em></p>
+    }
+    else {
+        @foreach (var usuario in usuarios) {
+            <div class="d-flex justify-content-between align-items-center m-2">
+                <span>@usuario.Usuario</span>
+                <div class="d-flex">
+                    <button class="btn btn-primary me-2" @onclick="() => NavegarParaDetalhes(usuario.RegistroId)">Editar</button>
+                    <button class="btn btn-danger ms-2" @onclick="() => NavegarParaDetalhes(usuario.RegistroId)">Deletar</button>
+                </div>
+            </div>
+        }
+    }
 
 </div>
 
 @code {
+    private List<UsuarioModel> usuarios = new List<UsuarioModel>();
+
     private void NavegarParaDetalhes(int id) {
         Navigation.NavigateTo($"/usuario/{id}");
+    }
+
+    protected override async Task OnInitializedAsync() {
+        usuarios = await UsuarioService.GetAllUsuarios();
     }
 }

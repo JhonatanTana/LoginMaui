@@ -19,7 +19,6 @@ public static class MauiProgram {
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        //builder.Services.AddSingleton<DatabaseHelper>();
         builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
         builder.Services.AddSingleton<ICadastroService, CadastroService>();
 

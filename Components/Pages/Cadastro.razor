@@ -69,8 +69,19 @@
 
         if (response > 0) {
 
+            try {
+                await EnviarEmailAsync(
+                    cadastroEmail,
+                    "Confirmação de Cadastro",
+                    "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
+                );
+            }
+            catch (Exception ex) {
+                await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
+            }
+
             await DisplayAlert("Sucesso", "Cadastro concluido", "Ok");
-            Navigation.NavigateTo("/PaginaInicial");
+            Navigation.NavigateTo("/");
         }
         else {
 
@@ -102,7 +113,7 @@
     }
 
     private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
-        var apiKey = "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";
+        var apiKey = "";
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;
@@ -117,8 +128,6 @@
             var errorMessage = await response.Body.ReadAsStringAsync();
             await DisplayAlert("Erro", $"Falha ao enviar e-mail 404: {errorMessage}", "OK");
         }
-
-
     }
 
     private async Task DisplayAlertAndNavigate(string title, string message, string cancel, string navigateTo) {

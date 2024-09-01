@@ -1,0 +1,38 @@
+﻿@page "/ListaCadastros"
+@using LoginMaui.Models
+@using LoginMaui.Services
+@inject NavigationManager Navigation
+@inject ICadastroService CadastroService
+
+<div class="vh-100">
+
+    <div class="d-flex justify-content-center mt-1 mb-3">
+        <h1>Lista de Cadastros</h1>
+    </div>
+
+    @if(cadastros == null) {
+
+        <p><em>Carregando...</em></p>
+    }else{
+
+        @foreach(var cadastro in cadastros) {
+
+            <div class="d-flex justify-content-between align-items-center m-2">
+                <span>@cadastro.Nome @cadastro.Sobrenome</span>
+                <button class="btn btn-primary" @onclick="() => NavegarParaDetalhes(cadastro.CadastroId)">Detalhes</button>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private List<CadastroModel> cadastros;
+
+    private void NavegarParaDetalhes(int id) {
+        Navigation.NavigateTo($"/usuario/{id}");
+    }
+
+    protected override async Task OnInitializedAsync() {
+        cadastros = await CadastroService.GetAllCadastros();
+    }
+}
