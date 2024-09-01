@@ -4,7 +4,7 @@
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
 
-<div class="vh-100">
+<div class="vh-100 d-flex flex-column">
 
     <div class="d-flex justify-content-center mt-1 mb-3">
         <h1>Lista de Usuarios</h1>
@@ -25,6 +25,8 @@
         }
     }
 
+    <a class="btn btn-light m-2" @onclick="Voltar">Voltar</a>
+
 </div>
 
 @code {
@@ -36,5 +38,10 @@
 
     protected override async Task OnInitializedAsync() {
         usuarios = await UsuarioService.GetAllUsuarios();
+    }
+
+    private void Voltar(MouseEventArgs e) {
+
+        Navigation.NavigateTo("/PaginaInicial");
     }
 }

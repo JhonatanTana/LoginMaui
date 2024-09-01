@@ -21,22 +21,27 @@ public class CadastroService : ICadastroService {
         }
     }
     public async Task<int> AddCadastro(CadastroModel cadastro) {
+
         return await _dbConnection.InsertAsync(cadastro);
     }
 
     public async Task<int> DeleteCadastro(CadastroModel cadastro) {
+
         return await _dbConnection.DeleteAsync(cadastro);
     }
 
     public async Task<List<CadastroModel>> GetAllCadastros() {
+
         return await _dbConnection.Table<CadastroModel>().ToListAsync();
     }
 
-    public Task<CadastroModel> GetCadastroById(int registroId) {
-        throw new NotImplementedException();
+    public async Task<CadastroModel> GetCadastroById(int id) {
+
+        return await _dbConnection.Table<CadastroModel>().FirstOrDefaultAsync(c => c.CadastroId == id);
     }
 
     public async Task<int> UpdateCadastro(CadastroModel cadastro) {
+
         return await _dbConnection.UpdateAsync(cadastro);
     }
 }

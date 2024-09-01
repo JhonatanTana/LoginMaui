@@ -4,7 +4,7 @@
 @inject NavigationManager Navigation
 @inject ICadastroService CadastroService
 
-<div class="vh-100">
+<div class="vh-100 d-flex flex-column">
 
     <div class="d-flex justify-content-center mt-1 mb-3">
         <h1>Lista de Cadastros</h1>
@@ -23,16 +23,24 @@
             </div>
         }
     }
+
+    <a class="btn btn-light m-2" @onclick="Voltar">Voltar</a>
+
 </div>
 
 @code {
     private List<CadastroModel> cadastros;
 
     private void NavegarParaDetalhes(int id) {
-        Navigation.NavigateTo($"/usuario/{id}");
+        Navigation.NavigateTo($"/cadastro/{id}");
     }
 
     protected override async Task OnInitializedAsync() {
         cadastros = await CadastroService.GetAllCadastros();
+    }
+
+    private void Voltar(MouseEventArgs e) {
+
+        Navigation.NavigateTo("/PaginaInicial");
     }
 }
