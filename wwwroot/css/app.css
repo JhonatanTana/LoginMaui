@@ -17,9 +17,24 @@ a, .btn-link {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-.page-background-class {
-    background-image: url(Ext\LoginMaui\Resources\Images\background.png)
+.login-btn{
+
 }
+
+.background-container {
+    background-image: url('/images/background.svg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    min-height: 100vh; 
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 
 .content {
     padding-top: 1.1rem;

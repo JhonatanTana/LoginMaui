@@ -8,22 +8,21 @@
 
 <div class="page-background-class container d-flex flex-column align-items-center mt-5 vh-100">
     <div>
-        <img class="w-100 mb-5" src="" alt="Logo" />
+        <img src="/images/Logo.svg" alt="Logo" class="" />
     </div>
-
-    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+        <div class="d-flex flex-column align-items-center justify-content-center w-100">
         <input type="text" id="username" @bind="usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80" />
         <input type="password" id="password" @bind="senha" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
     </div>
     <div class="w-100">
-        <a href="#" class="m-2 text-white">Esqueceu a senha ?</a>
+            <a href="/EsqueceuSenha" class="m-2 text-white">Esqueceu a senha ?</a>
     </div>
     <button type="submit" class="m-3 btn btn-primary w-60 align-items-center" @onclick="Login">Login</button>
     <a href="registrar" class="btn btn-secondary">Registrar-se</a>
-</div>
 
+</div>
 @code {
-    private string usuario { get; set; }
+    private string usuario { get; set; } 
     private string senha { get; set; }
     private List<UsuarioModel> usuarios;
 
