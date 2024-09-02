@@ -3,7 +3,9 @@
 @using System.Net.Mail
 @using System.ComponentModel.DataAnnotations;
 @using LoginMaui.Models
+@using System.IO;
 @using LoginMaui.Services
+@using Microsoft.Extensions.Configuration;
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject ICadastroService CadastroService
@@ -34,7 +36,7 @@
 </div>
 
 @code {
-    public string nome;
+    public string nome ;
     public string sobrenome;
     public DateTime dataNascimento = DateTime.Today;
     public string cadastroEmail;
@@ -112,8 +114,15 @@
 
     }
 
+
+
     private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
-        var apiKey = "";
+
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        IConfiguration config = builder.Build();
+        var apiKey = config["appsettings:APIKEYEmail"];
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;
