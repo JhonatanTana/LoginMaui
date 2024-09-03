@@ -118,11 +118,7 @@
 
     private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
 
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-        IConfiguration config = builder.Build();
-        var apiKey = config["appsettings:APIKEYEmail"];
+        var apiKey = "";
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;
