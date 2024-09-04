@@ -5,14 +5,13 @@
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
 
-<div class="vh-100">
+<div class="vh-100 fade-in">
 
-    <input class="m-2" type="text" placeholder="Usuario" @bind="usuario" />
-    <input class="m-2" type="password" placeholder="Senha" @bind="senha" />
-    <input class="m-2" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
+    <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" />
+    <input class="m-2 CaixaTexto" type="password" placeholder="Senha" @bind="senha" />
+    <input class="m-2 CaixaTexto" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
     <button class="btn btn-primary m-2" @onclick="Registrar">Registrar</button>
 </div>
-
 @code {
     private string usuario;
     private string senha;

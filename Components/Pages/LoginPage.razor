@@ -3,10 +3,10 @@
 @using LoginMaui.Services
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
+@inherits LayoutComponentBase
 
 <!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
-
-<div class="page-background-class container d-flex flex-column align-items-center mt-5 vh-100">
+<div class="page-background-class fade-in container d-flex flex-column align-items-center mt-5 vh-100">
     <div>
         <img src="/images/Logo.svg" alt="Logo" class="" />
     </div>
@@ -17,10 +17,12 @@
     <div class="w-100">
             <a href="/EsqueceuSenha" class="m-2 text-white">Esqueceu a senha ?</a>
     </div>
-    <button type="submit" class="m-3 login-btn tamanho align-items-center" @onclick="Login"></button>
-    <a href="registrar" class="btn-secondary">Registrar-se</a>
+
+    <button type="submit" class="m-5 botaoBase" @onclick="Login">Entrar</button>
+    <button type="submit" class="m-5 botaoBase" @onclick="NavegarParaRegistro">Registrar-se</button>
 
 </div>
+
 @code {
     private string usuario { get; set; } 
     private string senha { get; set; }
@@ -45,6 +47,11 @@
         }else {
             await DisplayAlert("Erro", "Usario ou senha inválido", "OK");
         }*/
+    }
+
+    private void NavegarParaRegistro()
+    {
+        Navigation.NavigateTo("/registrar");
     }
 
     private async Task DisplayAlert(string title, string message, string cancel) {
