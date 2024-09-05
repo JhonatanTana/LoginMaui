@@ -6,11 +6,12 @@
 @inject IUsuarioService UsuarioService
 
 <div class="vh-100 fade-in">
-
+    <div class="d-flex flex-column align-items-center justify-content-center">
     <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" />
     <input class="m-2 CaixaTexto" type="password" placeholder="Senha" @bind="senha" />
     <input class="m-2 CaixaTexto" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
-    <button class="btn btn-primary m-2" @onclick="Registrar">Registrar</button>
+    <button class="botaoBase" @onclick="Registrar">Registrar</button>
+    </div>
 </div>
 @code {
     private string usuario;

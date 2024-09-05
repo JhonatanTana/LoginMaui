@@ -6,21 +6,23 @@
 @inherits LayoutComponentBase
 
 <!-- A cor da barra de status e definida no arquivo "Platforms/Android/MainActivity.cs" -->
-<div class="page-background-class fade-in container d-flex flex-column align-items-center mt-5 vh-100">
+<div class="fade-in container d-flex flex-column align-items-center mt-5 vh-100">
     <div>
-        <img src="/images/Logo.svg" alt="Logo" class="" />
+        <img src="/images/Logo.svg" alt="Logo" class="Espaco" />
     </div>
-        <div class="d-flex flex-column align-items-center justify-content-center w-100">
-        <input type="text" id="username" @bind="usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80" />
-        <input type="password" id="password" @bind="senha" name="password" placeholder="Senha" class="m-2 p-1 w-80" />
+        <div class="d-flex flex-column align-items-center justify-content-center">
+        <input type="text" id="username" @bind="usuario" name="user" placeholder="Usuario" class="m-2 p-1 w-80 CaixaTexto" />
+        <input type="password" id="password" @bind="senha" name="password" placeholder="Senha" class="m-2 p-1 w-80 CaixaTexto" />
     </div>
     <div class="w-100">
             <a href="/EsqueceuSenha" class="m-2 text-white">Esqueceu a senha ?</a>
     </div>
 
-    <button type="submit" class="m-5 botaoBase" @onclick="Login">Entrar</button>
-    <button type="submit" class="m-5 botaoBase" @onclick="NavegarParaRegistro">Registrar-se</button>
-
+    <div class="align-content-center justify-content-center flex-column d-flex">
+    <button type="submit" class="botaoBase" @onclick="Login">Entrar</button>
+    <button type="submit" class="botaoBase" @onclick="NavegarParaRegistro">Registrar-se</button>
+    </div>
+    <a class="Espaco" href="#">Bem Vindo!</a>
 </div>
 
 @code {
