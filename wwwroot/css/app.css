@@ -1,29 +1,55 @@
 ﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     overflow: hidden;
+    
 }
 
-a, .btn-link {
-    color: #006bb7;
+.margemBaixo{
+    margin-bottom:30px;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
-.fade-in {
-    animation: fadeInAnimation 0.3s ease-in-out;
-
+.margemCima{
+    margin-top:45px;
 }
 
 .Espaco {
     margin-bottom: 30px;
+    z-index:10;
 }
 
 .EspacoTexto {
     margin-bottom: 100px;
+
+}
+
+.bubble {
+    z-index:0;
+    width: 100px;
+    height: 100px;
+    background-color: #008abe00; 
+    border-radius: 50%; 
+    position: absolute;
+    opacity:50%;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite ease-in;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-50px); /* Makes it "float" upwards */
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInAnimation 0.5s ease-in-out;
 }
 
 @keyframes fadeInAnimation {
@@ -41,7 +67,11 @@ a, .btn-link {
 }
 
 
-.botaoBase {
+
+
+.botaoEntrar {
+    color: white;
+    background: linear-gradient(135deg, #);
     margin-top: 20px;
     width: 300px;
     height: 45px;
@@ -49,7 +79,7 @@ a, .btn-link {
     border-top-right-radius: 25px;
     border-end-start-radius: 25px;
     border-end-end-radius: 25px;
-    border: groove;
+    border: none;
     background-size: auto;
     background-position: center;
     background-clip: inherit;
@@ -60,28 +90,46 @@ a, .btn-link {
     box-shadow: 0 10px 10px rgba(0, 0, 5, 0.90);
 }
 
+.botaoRegistro {
+    background: linear-gradient(80deg, #3E1E97, #B79EFF);
+    color: white;
+    margin-top: 360px;
+    width: 300px;
+    height: 45px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-end-start-radius: 25px;
+    border-end-end-radius: 25px;
+    border: none;
+    background-color: aliceblue;
+    justify-content: start;
+    align-content: start;
+    box-shadow: 0 10px 10px rgba(0, 0, 5, 0.90);
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .CaixaTexto {
-    border: none;
+    border: solid,;
     width: 300px;
     height: 40px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border-end-start-radius: 3px;
     border-end-end-radius: 3px;
-    border: 1px solid #ccc;
+    border: 1px solid #0000;
     border-radius: 5px;
-    box-shadow: 0 10px 10px rgba(0, 0, 2, 50);
+    box-shadow: 5px 10px 8px 2px rgba(0, 0, 0, 0.2);
+    background-color:rgba(160,255,255,0.3);
 }
 
 
 
 .CaixaTexto::placeholder{
     padding:20px;
-    color:gray;
+    color:white;
 }
 
 .background-container {
@@ -181,5 +229,23 @@ span, h1 {
 
     .flex-column, .navbar-brand {
         padding-left: env(safe-area-inset-left);
+    }
+}
+
+.corpo {
+    background: linear-gradient(36deg, #002876, #8E24B4, #6B0843);
+}
+
+.LogoFade{
+    animation:LogoFade 2s ease-out;
+}
+
+@keyframes LogoFade{
+    0% {
+        transform: translateY(-60px);
+    }
+
+    100% {
+        transform: translateY(0);
     }
 }

@@ -119,7 +119,6 @@
 
     private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
 
-        var apiKey = "";
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
         var subject = assunto;

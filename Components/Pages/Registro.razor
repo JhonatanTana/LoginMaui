@@ -10,9 +10,15 @@
     <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" />
     <input class="m-2 CaixaTexto" type="password" placeholder="Senha" @bind="senha" />
     <input class="m-2 CaixaTexto" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
-    <button class="botaoBase" @onclick="Registrar">Registrar</button>
+    </div>
+
+    <div class="d-flex justify-content-center mt-auto">
+        <button class="botaoRegistro" @onclick="Registrar">Registrar</button>
     </div>
 </div>
+
+
+
 @code {
     private string usuario;
     private string senha;
