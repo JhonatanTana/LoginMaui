@@ -1,0 +1,27 @@
+﻿@page "/"
+@inject NavigationManager Navigate
+@inherits LayoutComponentBase
+
+<div class="fade-in container d-flex flex-column align-items-center vh-100">
+    <div>
+        <img src="/images/Logo.svg" alt="Logo" class="Espaco margemCima LogoFade" />
+    </div>
+    <div class="flex-column d-flex margemCimaGrande align-content-center justify-content-center">
+        <button type="submit" class="botaoEntrar" @onclick="NavegarParaLogin">Entrar</button>
+        <button type="submit" class="botaoRegistro" @onclick="NavegarParaRegistro">Sou um novo Usuario.</button>
+    </div>
+</div>
+
+
+@code {
+
+    private void NavegarParaRegistro()
+    {
+        Navigate.NavigateTo("/registrar");
+    }
+
+    private void NavegarParaLogin()
+    {
+        Navigate.NavigateTo("/LoginPage");
+    }
+}

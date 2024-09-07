@@ -1,4 +1,5 @@
-﻿using LoginMaui.Models;
+﻿using LoginMaui.Components.Pages;
+using LoginMaui.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,21 @@ public class UsuarioService : IUsuarioService {
         return await _dbConnection.InsertAsync(usuario);
     }
 
-    public async Task<int> DeleteUsuario(UsuarioModel usuario) {
+    public async Task<int> DeleteUsuario(UsuarioModel usuario)
+    {
         return await _dbConnection.DeleteAsync(usuario);
+    }
+
+    public async Task<int> DeleteUsuarioById(int registroId)
+    {
+        var usuario = await _dbConnection.Table<UsuarioModel>().Where(u => u.RegistroId == registroId).FirstOrDefaultAsync();
+        if (usuario != null)
+        {
+            return await _dbConnection.DeleteAsync(usuario);
+
+        }
+
+        return 0;
     }
 
     public async Task<List<UsuarioModel>> GetAllUsuarios() {

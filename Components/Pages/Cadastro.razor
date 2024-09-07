@@ -1,4 +1,4 @@
-﻿@page "/cadastro"
+﻿@page "/Cadastro"
 @using System.Net
 @using System.Net.Mail
 @using System.ComponentModel.DataAnnotations;
@@ -12,35 +12,37 @@
 
 
 <div class="vh-100 fade-in">
-    <div class="p-4 gap-4">
-        <input type="text" placeholder="Nome" @bind="nome" />
-        <input type="text" placeholder="Sobrenome" @bind="sobrenome" />
-        <input type="date" placeholder="Data de Nascimento" @bind="dataNascimento" />
-        <input type="email" placeholder="Email" @bind="cadastroEmail" />
-        <input type="tel" placeholder="Telefone" @bind="telefone" />
-        <select class="form-select" aria-label="Default select example" @bind="genero">
+    <div class="p-4 g-10">
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Nome" @bind="nome" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Sobrenome" @bind="sobrenome" />
+        <input class="CaixaTexto margemBaixoSmall" type="date" placeholder="Data de Nascimento" @bind="dataNascimento" />
+        <input class="CaixaTexto margemBaixoSmall" type="email" placeholder="Email" @bind="cadastroEmail" />
+        <input class="CaixaTexto margemBaixoSmall" type="tel" placeholder="Telefone" @bind="telefone" />
+        <select class="form-select CaixaTexto margemBaixoSmall" aria-label="Default select example" @bind="genero">
             <option value="">Genero</option>
             <option value="M">Masculino</option>
             <option value="F">Feminino</option>
             <option value="O">Outro</option>
         </select>
-        <input type="number" placeholder="CEP" @bind="cep" @bind:event="oninput" @onchange="BuscarCep" />
-        <input type="text" placeholder="Rua" @bind="rua" />
-        <input type="number" placeholder="Numero" @bind="numero" />
-        <input type="text" placeholder="Complemento" @bind="complemento" />
-        <input type="text" placeholder="Bairro" @bind="bairro" />
-        <input type="text" placeholder="Cidade" @bind="cidade" />
-        <input type="text" placeholder="Estado" @bind="estado" />
+        <input class="CaixaTexto margemBaixoSmall" type="number" placeholder="CEP" @bind="cep" @bind:event="oninput" @onchange="BuscarCep" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Rua" @bind="rua" />
+        <input class="CaixaTexto margemBaixoSmall" type="number" placeholder="Numero" @bind="numero" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Complemento" @bind="complemento" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Bairro" @bind="bairro" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Cidade" @bind="cidade" />
+        <input class="CaixaTexto margemBaixoSmall" type="text" placeholder="Estado" @bind="estado" />
     </div>
-    <button type="submit" class="m-3 btn btn-primary w-60 align-items-center" @onclick="Cadastrar">Cadastrar</button>
+    <button type="submit" class="m-3 botaoEntrar w-80 align-items-center" @onclick="Cadastrar">Cadastrar</button>
 </div>
 
 @code {
+    [Required(ErrorMessage = "O usuário é obrigatório.")]
     public string nome ;
     public string sobrenome;
     public DateTime dataNascimento = DateTime.Today;
     public string cadastroEmail;
     public string telefone;
+    [Required(ErrorMessage = "Favor informe seu genero")]
     public string genero;
     public string cep;
     public string rua;
@@ -68,7 +70,17 @@
             Bairro = bairro,
             Cidade = cidade,
             Estado = estado
+
         });
+
+        if (dataNascimento == DateTime.Today)
+        {
+            await DisplayAlert("Erro", "A data de nascimento nao pode ser Hoje", "Ok");
+        }
+        else
+        {
+            await DisplayAlert("Sucesso", $"Voce nasceu no dia: {dataNascimento}", "Prosseguir");
+        }
 
         if (response > 0) {
 
@@ -84,7 +96,7 @@
             }
 
             await DisplayAlert("Sucesso", "Cadastro concluido", "Ok");
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/PaginaInicial");
         }
         else {
 

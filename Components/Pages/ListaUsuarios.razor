@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
 
+
 <div class="vh-100 d-flex flex-column fade-in">
 
     <div class="d-flex justify-content-center mt-1 mb-3">
@@ -19,7 +20,7 @@
                 <span>@usuario.Usuario</span>
                 <div class="d-flex">
                     <button class="btn btn-primary me-2" @onclick="() => NavegarParaDetalhes(usuario.RegistroId)">Editar</button>
-                    <button class="btn btn-danger ms-2" @onclick="() => NavegarParaDetalhes(usuario.RegistroId)">Deletar</button>
+                    <button class="btn btn-danger ms-2" @onclick="() => DeleteUsuarioPorId(usuario.RegistroId)">Deletar</button>
                 </div>
             </div>
         }
@@ -37,6 +38,12 @@
     }
 
     protected override async Task OnInitializedAsync() {
+        usuarios = await UsuarioService.GetAllUsuarios();
+    }
+
+    private async Task DeleteUsuarioPorId(int id)
+    {
+        var result = await UsuarioService.DeleteUsuarioById(id);
         usuarios = await UsuarioService.GetAllUsuarios();
     }
 

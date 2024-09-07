@@ -14,4 +14,6 @@ public interface IUsuarioService {
     Task<int> AddUsuario(UsuarioModel usuario);
     Task<int> UpdateUsuario(UsuarioModel usuario);
     Task<int> DeleteUsuario(UsuarioModel usuario);
+    Task<int> DeleteUsuarioById(int registroId);
+
 }

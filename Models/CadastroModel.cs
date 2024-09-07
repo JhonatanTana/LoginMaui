@@ -43,7 +43,7 @@ public class CadastroModel {
     [NotNull, MaxLength(5)]
     public string Numero { get; set; }
 
-    [NotNull, MaxLength(15)]
+    [MaxLength(15)]
     public string Complemento { get; set; }
 
     [NotNull, MaxLength(15)]
@@ -54,9 +54,4 @@ public class CadastroModel {
 
     [NotNull, MaxLength(2)]
     public string Estado { get; set; }
-
-    public int UsuarioId { get; set; }
-
-    [Ignore]
-    public UsuarioModel Usuario { get; set; }
 }

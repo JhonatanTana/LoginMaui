@@ -2,22 +2,43 @@
 @inject NavigationManager Navigation
 
 <div class="vh-100 fade-in">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center flex-column">
         <h1>Página Inicial</h1>
     </div>
-    <div class="d-flex justify-content-between">
-        <a href="ListaCadastros" class="btn btn-primary">Cadastros</a>
-        <a href="ListaUsuarios" class="btn btn-primary">Usuarios</a>
-        <a href="Cadastro" class="btn btn-primary">Cadastrar</a>
+    <div class="d-flex flex-column justify-content-between">
+        <button @onclick="Cadastros" class="botaoEntrar w-100">Cadastros</button>
+        <button @onclick="Usuarios" class="botaoEntrar w-100">Usuarios</button>
+        <button @onclick="Cadastrar" class="botaoEntrar w-100">Cadastrar</button>
+        <button @onclick="CadastrarUsuarios" class="botaoEntrar w-100">Cadastrar Usuario</button>
     </div>
 
-    <a class="btn btn-light m-2" @onclick="Voltar">Sair</a>
-
+    <div class="margemCimaGrande">
+    <button type="button" class="botaoEntrar w-40" @onclick="Voltar">Sair</button>
+    </div>
 </div>
 
+
 @code {
-    private void Voltar(MouseEventArgs e) {
+    private void Voltar() {
 
         Navigation.NavigateTo("/");
     }
+
+    private void Cadastros(){
+        Navigation.NavigateTo("/ListaCadastros");
+    }
+
+    private void Cadastrar()
+    {
+        Navigation.NavigateTo("/cadastro");
+    }
+    private void Usuarios()
+    {
+        Navigation.NavigateTo("/ListaUsuarios");
+    }
+    private void CadastrarUsuarios()
+    {
+        Navigation.NavigateTo("/registrar");
+    }
+
 }

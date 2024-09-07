@@ -17,10 +17,10 @@ public class UsuarioModel {
     [PrimaryKey, AutoIncrement]
     public int RegistroId { get; set; }
 
-    [NotNull, MaxLength(15)]
-    [Required(ErrorMessage = "O usuário é obrigatório.")]
+    [NotNull, MaxLength(30)]
     public string Usuario { get; set; }
 
+    [NotNull, MaxLength(30)]
     [Required(ErrorMessage = "A senha é obrigatoria")]
     public string Senha { get; set; }
 }
