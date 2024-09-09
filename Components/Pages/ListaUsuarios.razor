@@ -1,6 +1,11 @@
 ﻿@page "/ListaUsuarios"
 @using LoginMaui.Models
 @using LoginMaui.Services
+@using System.Net
+@using System.Net.Mail
+@using System.ComponentModel.DataAnnotations;
+@using System.IO;
+@using Microsoft.Extensions.Configuration;
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
 
@@ -43,12 +48,38 @@
 
     private async Task DeleteUsuarioPorId(int id)
     {
-        var result = await UsuarioService.DeleteUsuarioById(id);
-        usuarios = await UsuarioService.GetAllUsuarios();
+        try
+        {
+            var result = await UsuarioService.DeleteUsuarioById(id);
+            usuarios = await UsuarioService.GetAllUsuarios();
+
+            if(result > 0)
+            {
+                await DisplayAlert("Sucesso", "Usuario deletado com sucesso", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Erro", "Não foi possivel deletar o usuario", "OK");
+            }
+
+        }
+        catch(Exception ex)
+        {
+            await DisplayAlert("Erro",$"Não foi possivel deletar {ex.Message}", "Ok");
+        }
     }
 
     private void Voltar(MouseEventArgs e) {
 
         Navigation.NavigateTo("/PaginaInicial");
+    }
+
+
+    private async Task DisplayAlert(string title, string message, string cancel)
+    {
+        if (Application.Current?.MainPage != null)
+        {
+            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+        }
     }
 }
