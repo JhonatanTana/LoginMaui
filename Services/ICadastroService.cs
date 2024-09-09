@@ -13,4 +13,5 @@ public interface ICadastroService {
     Task<int> AddCadastro(CadastroModel cadastro);
     Task<int> UpdateCadastro(CadastroModel cadastro);
     Task<int> DeleteCadastro(CadastroModel cadastro);
+    Task<int> DeleteCadastroById(int cadastroId);
 }

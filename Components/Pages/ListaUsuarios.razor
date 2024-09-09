@@ -39,7 +39,8 @@
     private List<UsuarioModel> usuarios = new List<UsuarioModel>();
 
     private void NavegarParaDetalhes(int id) {
-        Navigation.NavigateTo($"/usuario/{id}");
+        Navigation.NavigateTo($"/usuario/editar/{id}");
+
     }
 
     protected override async Task OnInitializedAsync() {

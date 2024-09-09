@@ -30,6 +30,19 @@ public class CadastroService : ICadastroService {
         return await _dbConnection.DeleteAsync(cadastro);
     }
 
+    public async Task<int> DeleteCadastroById(int cadastroId)
+    {
+        var cadastro = await _dbConnection.Table<CadastroModel>().Where(u => u.CadastroId == cadastroId).FirstOrDefaultAsync();
+        if (cadastro != null)
+        {
+            return await _dbConnection.DeleteAsync(cadastro);
+
+        }
+
+        return 0;
+    }
+
+
     public async Task<List<CadastroModel>> GetAllCadastros() {
 
         return await _dbConnection.Table<CadastroModel>().ToListAsync();

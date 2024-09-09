@@ -1,6 +1,11 @@
 ﻿@page "/cadastro/{id:int}"
 @using LoginMaui.Models
 @using LoginMaui.Services
+@using System.Net
+@using System.Net.Mail
+@using System.ComponentModel.DataAnnotations;
+@using System.IO;
+@using Microsoft.Extensions.Configuration;
 @inject NavigationManager Navigation
 @inject ICadastroService CadastroService
 
@@ -18,7 +23,7 @@
 
         <div class="d-flex">
             <button class="btn btn-primary m-2">Editar</button>
-            <button class="btn btn-danger m-2">Excluir</button>
+            <button @onclick="() => DeleteCadastroByID(cadastro.CadastroId)" class="btn btn-danger m-2">Excluir</button>
         </div>
         <a class="btn btn-light m-2" @onclick="Voltar">Voltar</a>
     }
@@ -36,8 +41,36 @@
         cadastro = await CadastroService.GetCadastroById(Id);
     }
 
+    private async Task DeleteCadastroByID(int id)
+    {
+            var result = await CadastroService.DeleteCadastroById(id);
+            cadastro = await CadastroService.GetCadastroById(Id);
+    }
+
+
+
     private void Voltar(MouseEventArgs e) {
 
         Navigation.NavigateTo("/ListaCadastros");
     }
+
+    private async Task<bool> DisplayAlertOpcao(string title, string message, string cancel, string continua)
+    {
+        if (Application.Current?.MainPage != null)
+        {
+            return await Application.Current.MainPage.DisplayAlert(title, message, continua, cancel);
+        }
+
+        return false;
+
+    }
+    
+    private async Task DisplayAlert(string title, string message, string cancel)
+    {
+        if (Application.Current?.MainPage != null)
+        {
+            await Application.Current.MainPage.DisplayAlert(title, message, cancel);
+        }
+    }
+
 }
