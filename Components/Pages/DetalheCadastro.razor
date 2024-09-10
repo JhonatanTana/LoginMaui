@@ -11,14 +11,24 @@
         <span>Data de Nascimento: @cadastro.DataNascimento.ToShortDateString()</span>
         <span>Email: @cadastro.CadastroEmail</span>
         <span>Telefone: @cadastro.Telefone</span>
-        <span>Genero: @cadastro.Genero</span>
+        @if (cadastro.Genero == "M") {
+
+            <span>Genero: Masculino</span>
+        }
+        else if (cadastro.Genero == "F") {
+
+            <span>Genero: Feminino</span>
+        }
+        else {
+            <span>Genero: Outro</span>
+        }
         <span>@cadastro.Rua, @cadastro.Numero</span>
         <span>@cadastro.Bairro, @cadastro.Complemento</span>
         <span>@cadastro.Cidade, @cadastro.Estado</span>
 
         <div class="d-flex">
-            <button class="btn btn-primary m-2">Editar</button>
-            <button class="btn btn-danger m-2">Excluir</button>
+            <button class="btn btn-primary m-2" @onclick="@(() => EditarCadastro(cadastro.CadastroId))">Editar</button>
+            <button class="btn btn-danger m-2" @onclick="@(() => DeletarCadastro(cadastro))">Excluir</button>
         </div>
         <a class="btn btn-light m-2" @onclick="Voltar">Voltar</a>
     }
@@ -33,11 +43,29 @@
     private CadastroModel cadastro;
 
     protected override async Task OnParametersSetAsync() {
+
         cadastro = await CadastroService.GetCadastroById(Id);
     }
 
     private void Voltar(MouseEventArgs e) {
 
         Navigation.NavigateTo("/ListaCadastros");
+    }
+
+    private async void DeletarCadastro(CadastroModel cadastro) {
+
+        var response = await CadastroService.DeleteCadastro(cadastro);
+
+        if (response > 0) {
+
+            await OnInitializedAsync();
+            this.StateHasChanged();
+            Navigation.NavigateTo("/ListaCadastros");
+        }
+    }
+
+    private async void EditarCadastro(int cadastroId) {
+
+        Navigation.NavigateTo($"/Cadastro/Update/{cadastroId}");
     }
 }
