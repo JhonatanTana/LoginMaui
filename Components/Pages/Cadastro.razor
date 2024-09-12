@@ -1,4 +1,5 @@
 ﻿@page "/Cadastro"
+@page "/Cadastro/Update/{CadastroId:int}"
 @using System.Net
 @using System.Net.Mail
 @using System.ComponentModel.DataAnnotations;
@@ -36,8 +37,12 @@
 </div>
 
 @code {
+
+    [Parameter]
+    public int CadastroId { get; set; }
+
     [Required(ErrorMessage = "O usuário é obrigatório.")]
-    public string nome ;
+    public string nome;
     public string sobrenome;
     public DateTime dataNascimento = DateTime.Today;
     public string cadastroEmail;
@@ -47,61 +52,106 @@
     public string cep;
     public string rua;
     public string numero;
-    [Required(ErrorMessage ="Favor Definir um complemento, Exemplo: 'Casa'")]
+    [Required(ErrorMessage = "Favor Definir um complemento, Exemplo: 'Casa'")]
     public string complemento;
     public string bairro;
     public string cidade;
     public string estado;
 
+    protected async override Task OnInitializedAsync() {
+
+        if (CadastroId > 0) {
+
+            var response = await CadastroService.GetCadastroById(CadastroId);
+
+            if (response != null) {
+
+                nome = response.Nome;
+                sobrenome = response.Sobrenome;
+                dataNascimento = response.DataNascimento;
+                cadastroEmail = response.CadastroEmail;
+                telefone = response.Telefone;
+                genero = response.Genero;
+                cep = response.Cep;
+                rua = response.Rua;
+                numero = response.Numero;
+                complemento = response.Complemento;
+                bairro = response.Bairro;
+                cidade = response.Cidade;
+                estado = response.Estado;
+            }
+        }
+    }
+
     private async void Cadastrar() {
 
-        var response = await CadastroService.AddCadastro(new CadastroModel {
+        var cadastroModelo = new CadastroModel {
 
-            Nome = nome,
-            Sobrenome = sobrenome,
-            DataNascimento = dataNascimento,
-            CadastroEmail = cadastroEmail,
-            Telefone = telefone,
-            Genero = genero,
-            Cep = cep,
-            Rua = rua,
-            Numero = numero,
-            Complemento = complemento,
-            Bairro = bairro,
-            Cidade = cidade,
-            Estado = estado
+                Nome = nome,
+                Sobrenome = sobrenome,
+                DataNascimento = dataNascimento,
+                CadastroEmail = cadastroEmail,
+                Telefone = telefone,
+                Genero = genero,
+                Cep = cep,
+                Rua = rua,
+                Numero = numero,
+                Complemento = complemento,
+                Bairro = bairro,
+                Cidade = cidade,
+                Estado = estado,
+                CadastroId = CadastroId
+            };
 
-        });
+        if (CadastroId > 0) { // Editar
 
-        if (dataNascimento == DateTime.Today)
-        {
-            await DisplayAlert("Erro", "A data de nascimento nao pode ser Hoje", "Ok");
-        }
-        else
-        {
-            await DisplayAlert("Sucesso", $"Voce nasceu no dia: {dataNascimento}", "Prosseguir");
-        }
+            var response = await CadastroService.UpdateCadastro(cadastroModelo);
 
-        if (response > 0) {
+            if (response > 0) {
 
-            try {
-                await EnviarEmailAsync(
-                    cadastroEmail,
-                    "Confirmação de Cadastro",
-                    "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
-                );
+                await DisplayAlert("Sucesso", "Cadastro atualizado", "Ok");
+                Navigation.NavigateTo("/ListaCadastros");
             }
-            catch (Exception ex) {
-                await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
+            else {
+
+                await DisplayAlert("Erro", "Erro ao atualizar", "OK");
             }
 
-            await DisplayAlert("Sucesso", "Cadastro concluido", "Ok");
-            Navigation.NavigateTo("/PaginaInicial");
         }
-        else {
+        else { // Adicionar
 
-            await DisplayAlert("Erro", "Erro ao cadastrar", "OK");
+            if (dataNascimento == DateTime.Today) {
+
+                await DisplayAlert("Erro", "A data de nascimento nao pode ser Hoje", "Ok");
+            }
+            else {
+
+                var response = await CadastroService.AddCadastro(cadastroModelo);
+
+                if (response > 0) {
+
+                    /*try {
+                        await EnviarEmailAsync(
+                            cadastroEmail,
+                            "Confirmação de Cadastro",
+                            "Obrigado por se cadastrar!<br><br>Este é um email automático de confirmação, espero que tenha gostado de se cadastrar conosco.<br><br>Atenciosamente,<br>Equipe HeaLFit"
+                        );
+                    }
+                    catch (Exception ex) {
+                        await DisplayAlert("Erro", $"Erro ao cadastrar: {ex.Message}", "OK");
+                    }*/
+
+                    await DisplayAlert("Sucesso", "Cadastro concluido", "Ok");
+                    Navigation.NavigateTo("/PaginaInicial");
+                }
+                else {
+
+                    await DisplayAlert("Erro", "Erro ao cadastrar", "OK");
+                }
+            }
+
         }
+
     }
 
     private async Task BuscarCep(ChangeEventArgs e) {
@@ -127,9 +177,7 @@
 
     }
 
-
-
-    private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
+    /*private async Task EnviarEmailAsync(string email, string assunto, string mensagem) {
 
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress("souscarlout@outlook.com", "Gabriel");
@@ -145,7 +193,7 @@
             var errorMessage = await response.Body.ReadAsStringAsync();
             await DisplayAlert("Erro", $"Falha ao enviar e-mail 404: {errorMessage}", "OK");
         }
-    }
+    }*/
 
     private async Task DisplayAlertAndNavigate(string title, string message, string cancel, string navigateTo) {
         if (Application.Current?.MainPage != null) {

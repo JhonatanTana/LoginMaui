@@ -1,4 +1,4 @@
-﻿@page "/ListaUsuarios"
+@page "/ListaUsuarios"
 @using LoginMaui.Models
 @using LoginMaui.Services
 @using System.Net
@@ -24,7 +24,7 @@
             <div class="d-flex justify-content-between align-items-center m-2">
                 <span>@usuario.Usuario</span>
                 <div class="d-flex">
-                    <button class="btn btn-primary me-2" @onclick="() => NavegarParaDetalhes(usuario.RegistroId)">Editar</button>
+                    <button class="btn btn-primary me-2" @onclick="() => EditarUsuario(usuario.RegistroId)">Editar</button>
                     <button class="btn btn-danger ms-2" @onclick="() => DeleteUsuarioPorId(usuario.RegistroId)">Deletar</button>
                 </div>
             </div>
@@ -38,13 +38,14 @@
 @code {
     private List<UsuarioModel> usuarios = new List<UsuarioModel>();
 
-    private void NavegarParaDetalhes(int id) {
-        Navigation.NavigateTo($"/usuario/editar/{id}");
+    protected override async Task OnInitializedAsync() {
 
+        usuarios = await UsuarioService.GetAllUsuarios();
     }
 
-    protected override async Task OnInitializedAsync() {
-        usuarios = await UsuarioService.GetAllUsuarios();
+    private void EditarUsuario(int UsuarioId) {
+
+        Navigation.NavigateTo($"/registrar/{UsuarioId}");
     }
 
     private async Task DeleteUsuarioPorId(int id)
@@ -52,7 +53,7 @@
         try
         {
             var result = await UsuarioService.DeleteUsuarioById(id);
-            usuarios = await UsuarioService.GetAllUsuarios();
+            OnInitializedAsync();
 
             if(result > 0)
             {
@@ -74,7 +75,6 @@
 
         Navigation.NavigateTo("/PaginaInicial");
     }
-
 
     private async Task DisplayAlert(string title, string message, string cancel)
     {

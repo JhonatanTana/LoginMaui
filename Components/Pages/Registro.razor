@@ -1,4 +1,5 @@
 ﻿@page "/registrar"
+@page "/registrar/{UsuarioId:int}"
 @using System.ComponentModel.DataAnnotations
 @using LoginMaui.Models
 @using LoginMaui.Services
@@ -7,9 +8,14 @@
 
 <div class="vh-100 fade-in">
     <div class="d-flex flex-column align-items-center justify-content-center">
-    <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" />
-    <input class="m-2 CaixaTexto" type="password" placeholder="Senha" @bind="senha" />
-    <input class="m-2 CaixaTexto" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
+        @if(UsuarioId > 0) {
+            <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" readonly/>
+        }
+        else {
+            <input class="m-2 CaixaTexto" type="text" placeholder="Usuario" @bind="usuario" />
+        }
+        <input class="m-2 CaixaTexto" type="password" placeholder="Senha" @bind="senha" />
+        <input class="m-2 CaixaTexto" type="password" placeholder="Confirmar Senha" @bind="confirmacaoSenha" />
     </div>
 
     <div class="d-flex justify-content-center margemCimaGrande">
@@ -20,44 +26,85 @@
 
 
 @code {
+    [Parameter]
+    public int UsuarioId { get; set; }
+
     private string usuario;
     private string senha;
     private string confirmacaoSenha;
     private List<UsuarioModel> usuarios;
 
+    protected async override Task OnInitializedAsync() {
+
+        if( UsuarioId > 0 ) {
+
+            var response = await UsuarioService.GetUsuarioById(UsuarioId);
+
+            if(response != null) {
+
+                usuario = response.Usuario;
+            }
+        }
+    }
+
     private async Task Registrar() {
 
-        usuarios = await UsuarioService.GetAllUsuarios();
+        var usuarioModelo = new UsuarioModel {
 
-        if (usuarios.Any(u => u.Usuario == usuario)) { // Verifica se o usuario ja existe
+                RegistroId = UsuarioId,
+                Usuario = usuario,
+                Senha = senha
+            };
 
-            await DisplayAlert("Erro", "Usuario ja existente", "Ok");
-        }
-        else {
+        if (UsuarioId > 0) {
 
-            if (senha == confirmacaoSenha) { //Verifica se a senha e correspondente
+            if( senha == confirmacaoSenha) {
+                
+                var response = await UsuarioService.UpdateUsuario(usuarioModelo);
 
-                var response = await UsuarioService.AddUsuario(new UsuarioModel {
+                if(response > 0) {
 
-                    Usuario = usuario,
-                    Senha = senha
-                });
-
-                if (response > 0) { // verifica se o usuário foi cadastrado com sucesso
-
-                    await DisplayAlert("Sucesso", $"Usuário {usuario} cadastrado com sucesso", "Ok");
-                    Navigation.NavigateTo("/cadastro");
+                    await DisplayAlert("Sucesso", $"Usuário {usuario} atualizado com sucesso", "Ok");
+                    Navigation.NavigateTo("/ListaUsuarios");
                 }
                 else {
 
-                    await DisplayAlert("Erro", "Erro ao cadastrar", "Ok");
+                    await DisplayAlert("Erro", "Erro ao atualizar", "Ok");
                 }
+            }
+
+        }
+        else {
+
+            usuarios = await UsuarioService.GetAllUsuarios();
+
+            if (usuarios.Any(u => u.Usuario == usuario)) { // Verifica se o usuario ja existe
+
+                await DisplayAlert("Erro", "Usuario ja existente", "Ok");
             }
             else {
 
-                await DisplayAlert("Erro", $"As senhas não conferem", "Ok");
-            }
+                if (senha == confirmacaoSenha) { //Verifica se a senha e correspondente
 
+                    var response = await UsuarioService.AddUsuario(usuarioModelo);
+
+                    if (response > 0) { // verifica se o usuário foi cadastrado com sucesso
+
+                        await DisplayAlert("Sucesso", $"Usuário {usuario} cadastrado com sucesso", "Ok");
+                        Navigation.NavigateTo("/cadastro");
+                    }
+                    else {
+
+                        await DisplayAlert("Erro", "Erro ao cadastrar", "Ok");
+                    }
+                }
+                else {
+
+                    await DisplayAlert("Erro", $"As senhas não conferem", "Ok");
+                }
+
+
+            }
 
         }
     }

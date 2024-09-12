@@ -54,7 +54,8 @@ public class UsuarioService : IUsuarioService {
         return await _dbConnection.UpdateAsync(usuario);
     }
 
-    public Task<UsuarioModel> GetUsuarioById(int registroId) {
-        throw new NotImplementedException();
+    public async Task<UsuarioModel> GetUsuarioById(int registroId) {
+
+        return await _dbConnection.Table<UsuarioModel>().FirstOrDefaultAsync(c => c.RegistroId == registroId);
     }
 }
