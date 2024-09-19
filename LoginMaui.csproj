@@ -40,12 +40,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" />
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#ffff" />
 
-        <!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" TintColor="#ffff" Color="#000000" BaseSize="1080,720" />
-
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#ffff" BaseSize="128,128" />
+		
 		<!-- Images -->
         <MauiImage Include="Resources\Images\*" />
         <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
@@ -58,6 +58,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AndroidResource Remove="Platforms\Android\Resources\mipmap\ic_launcher.png" />
       <AndroidResource Remove="Platforms\Android\Resources\values\style.xml" />
     </ItemGroup>
 
@@ -66,6 +67,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Platforms\Android\Resources\mipmap\healfit.svg" />
       <None Remove="Resources\Images\Background.png" />
     </ItemGroup>
 

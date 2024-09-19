@@ -1,11 +1,6 @@
-@page "/cadastro/{id:int}"
+﻿@page "/cadastro/{id:int}"
 @using LoginMaui.Models
 @using LoginMaui.Services
-@using System.Net
-@using System.Net.Mail
-@using System.ComponentModel.DataAnnotations;
-@using System.IO;
-@using Microsoft.Extensions.Configuration;
 @inject NavigationManager Navigation
 @inject ICadastroService CadastroService
 
@@ -32,7 +27,6 @@
         <span>@cadastro.Cidade, @cadastro.Estado</span>
 
         <div class="d-flex">
-
             <button class="btn btn-primary m-2" @onclick="@(() => EditarCadastro(cadastro.CadastroId))">Editar</button>
             <button class="btn btn-danger m-2" @onclick="@(() => DeletarCadastro(cadastro))">Excluir</button>
         </div>
@@ -53,17 +47,25 @@
         cadastro = await CadastroService.GetCadastroById(Id);
     }
 
-    private async Task DeleteCadastroByID(int id)
-    {
-            var result = await CadastroService.DeleteCadastroById(id);
-            cadastro = await CadastroService.GetCadastroById(Id);
-    }
-
-
-
     private void Voltar(MouseEventArgs e) {
 
         Navigation.NavigateTo("/ListaCadastros");
     }
 
+    private async void DeletarCadastro(CadastroModel cadastro) {
+
+        var response = await CadastroService.DeleteCadastro(cadastro);
+
+        if (response > 0) {
+
+            await OnInitializedAsync();
+            this.StateHasChanged();
+            Navigation.NavigateTo("/ListaCadastros");
+        }
+    }
+
+    private async void EditarCadastro(int cadastroId) {
+
+        Navigation.NavigateTo($"/Cadastro/Update/{cadastroId}");
+    }
 }
